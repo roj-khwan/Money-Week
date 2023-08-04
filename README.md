@@ -19,4 +19,4 @@ This is Software that gonna give you **Important information** for planning on s
 ## How To Use?
 We are currently in the process of developing this project into a webpage.  
 However, if you wish to try the program, you can download our .exe file to use it beforehand.
-[Install EXE]([dist/](https://github.com/roj-khwan/Money-Week/blob/main/dist/Money-Weeks.exe)https://github.com/roj-khwan/Money-Week/blob/main/dist/Money-Weeks.exe)
+[Install EXE](https://github.com/roj-khwan/Money-Week/blob/main/dist/Money-Weeks.exe)
