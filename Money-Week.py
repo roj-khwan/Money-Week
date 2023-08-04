@@ -2,17 +2,16 @@ import datetime
 import math
 
 #region setting
-start_date = datetime.date(2023, 2, 8)
-end_date = datetime.date(2024, 2, 7)
-current_date = datetime.date.today()
-# current_date = datetime.date(2023, 2, 15)
+start_date = None
+end_date = None
+current_date = None
 
-moneyGoal = 639
+moneyGoal = None
 
 # start at Monday (1) -> Sunday (7)
 target_weekday = 7
 
-currency = "Baht"
+currency = "USD"
 #endregion setting
 
 def ordinal(number):
@@ -24,18 +23,54 @@ def ordinal(number):
     return f"{number}{suffix}"
 
 if __name__ == '__main__':
-    # Check if dates make sense
-    if start_date > current_date:
-        print('Current Date is Before Start Date')
-        exit()
+    # User Input
+    date_raw = input("Please Input Start Date (YYYY/MM/DD) : ").strip().split('/')
+    while not start_date:
+        try:
+            y, m, d = map(int, date_raw)
+            start_date = datetime.date(y, m, d)
+        except:
+            print("Error 1: Look like It's an Invalid Input.\nPlease reEnter Start Date According to Format. (YYYY/MM/DD)")
+            date_raw = input("Please Input Start Date (YYYY/MM/DD) : ").strip().split('/')
 
-    if start_date > end_date:
-        print('End Date is Before Start Date')
-        exit()
+    date_raw = input("Please Input End Date (YYYY/MM/DD) : ").strip().split('/')
+    while not end_date:
+        try:
+            y, m, d = map(int, date_raw)
+            end_date = datetime.date(y, m, d)
 
-    if current_date > end_date:
-        print('End Date is Before Current Date')
-        exit()
+            if start_date >= end_date:
+                print("Error 2:End Date can't be before Start Date")
+                end_date = None
+
+        except:
+            print("Look like It's an Invalid Input.\nPlease reEnter End Date According to Format. (YYYY/MM/DD)")
+            date_raw = input("Please Input End Date (YYYY/MM/DD) : ").strip().split('/')
+
+    date_raw = input("Please Input Current Date (YYYY/MM/DD) : ").strip().split('/')
+    while not current_date:
+        try:
+            y, m, d = map(int, date_raw)
+            current_date = datetime.date(y, m, d)
+
+            if start_date > current_date:
+                print("Error 2:Current Date can't be before Start Date")
+                current_date = None
+            if current_date >= end_date:
+                print("Error 2:Current Date can't be after End Date")
+                current_date = None
+                
+        except:
+            print("Look like It's an Invalid Input.\nPlease reEnter Current Date According to Format. (YYYY/MM/DD)")
+            date_raw = input("Please Input Current Date (YYYY/MM/DD) : ").strip().split('/')
+
+    money_raw = input("Please Input Expected Money : ")
+    try:
+        moneyGoal = abs(int(money_raw))
+    except:
+        print("Please Input Invalid amount of money")
+        money_raw = input("Please Input Expected Money : ")
+
 
     # Nearest weekday to closest target weekday
     # Current and end date are closest previous weekday
@@ -50,6 +85,7 @@ if __name__ == '__main__':
 
     money_per_week = moneyGoal / start_end_week_diff
 
+    print('-' * 13)
     print(f"Weeks between Start - End: {start_end_week_diff} Week{'s' if start_end_week_diff != 1 else ''}")
     print(f"Current Week: {ordinal(start_current_week_diff)} Week{'s' if start_current_week_diff != 1 else ''}")
     print(f"Amount of money you should've by now: {math.ceil(start_current_week_diff * money_per_week)} {currency}")
